@@ -46,11 +46,13 @@ public class SkystoneContour extends OpenCvPipeline {
         Core.inRange(yuv, new Scalar(0, 0, 0), new Scalar(20, 20, 20), bimImg);
         //Now, we erode the binary image to get rid of any dirtiness.
         structElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+        //Eroding the image allows us to better locate the skystone, as the border walls of the playing field are black as well
         Imgproc.erode(bimImg, bimImg, structElement);
         Imgproc.findContours(bimImg, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         if (showContours) {
             Imgproc.drawContours(bimImg, contours, -1, new Scalar(0, 255, 0), 2, 8);
         }
-        return null;
+
+        return yuv;
     }
 }
