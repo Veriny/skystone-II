@@ -15,7 +15,6 @@ public class VisionTestOP extends OpMode {
     @Override
     public void init() {
         robot = new Drivetrain(hardwareMap.dcMotor.get("topRight"), hardwareMap.dcMotor.get("bottomRight"), hardwareMap.dcMotor.get("topLeft"), hardwareMap.dcMotor.get("bottomRight"), false, telemetry);
-
     }
 
     @Override

@@ -14,7 +14,6 @@ import java.util.List;
 
 public class SkystoneContour extends OpenCvPipeline {
     private Mat yuv = new Mat();
-    private Mat thresholded = new Mat();
     private Mat bimImg = new Mat();
     private Mat structElement = new Mat();
     private double x, y;
