@@ -18,13 +18,10 @@ public class SkystoneContour extends OpenCvPipeline {
     private Mat structElement = new Mat();
     private double x, y;
     private List<MatOfPoint> contours = new ArrayList<>();
-
-
     private boolean showContours = false;
     public synchronized void setShowContours(boolean b) {
         showContours = b;
     }
-
     public synchronized double getContourXPos() {
         Moments m = Imgproc.moments(contours.get(contours.size() - 1));
         //here, we return the average x position of the contour
@@ -36,6 +33,7 @@ public class SkystoneContour extends OpenCvPipeline {
         //here, we return the average y position of the contour
         return m.m01/m.m00;
     }
+
 
 
     @Override
@@ -51,7 +49,6 @@ public class SkystoneContour extends OpenCvPipeline {
         if (showContours) {
             Imgproc.drawContours(bimImg, contours, -1, new Scalar(0, 255, 0), 2, 8);
         }
-
         return yuv;
     }
 }
