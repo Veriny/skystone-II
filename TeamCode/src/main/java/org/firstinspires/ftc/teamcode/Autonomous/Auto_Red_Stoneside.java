@@ -6,20 +6,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 
 @Autonomous(name="Red(Stoneside)_Collect_Deposit_FoundationDrag_Park", group = "test")
 public class Auto_Red_Stoneside extends LinearOpMode {
     public Drivetrain robot;
     public Intake intake;
-    private ElapsedTime time;
+    public Lift lift;
 
     @Override
     public void runOpMode() throws InterruptedException {
         robot = new Drivetrain(hardwareMap.dcMotor.get("topLeftMotor"), hardwareMap.dcMotor.get("bottomLeftMotor"), hardwareMap.dcMotor.get("topRightMotor"), hardwareMap.dcMotor.get("bottomRightMotor"), true, telemetry);
         intake = new Intake(hardwareMap.dcMotor.get("leftIntake"), hardwareMap.dcMotor.get("rightIntake"));
-        time = new ElapsedTime();
+        lift = new Lift(hardwareMap.dcMotor.get("liftMotor"), hardwareMap.dcMotor.get("v4bMotor"), hardwareMap.servo.get("clawServo"));
 
         waitForStart();
+        lift.liftV4BMotor();
+        lift.release();
         robot.strafe(24, 1.0);
 
         boolean hasSkystone = false;
@@ -32,6 +35,8 @@ public class Auto_Red_Stoneside extends LinearOpMode {
                 intake.succ(0.69420);
                 robot.drive(12, 0.8);
                 intake.noSucc();
+                lift.restV4BMotor();
+                lift.hold();
                 robot.drive(-12, 1.0);
                 hasSkystone = true;
                 return;
@@ -43,11 +48,19 @@ public class Auto_Red_Stoneside extends LinearOpMode {
             intake.succ(0.69420);
             robot.drive(12, 0.8);
             intake.noSucc();
+            lift.restV4BMotor();
+            lift.hold();
             robot.drive(-12, 1.0);
         }
 
+        lift.restV4BMotor();
         robot.strafe(84, 1.0);
         robot.turn(-90, 0.5);
+        lift.dumpLiftMotor();
+        lift.dumpV4BMotor();
+        lift.release();
+        lift.restV4BMotor();
+        lift.restLiftMotor();
         robot.drive(-12, 0.5);
         //foundation claw
         robot.drive(36, 0.5);
